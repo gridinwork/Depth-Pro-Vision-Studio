@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.py[cod]
+logs/
+checkpoints/
+screenshots/
+depth_maps/
+raw_depth/
+demo_videos/
+_vendor/
+*.ffmpeg.log
