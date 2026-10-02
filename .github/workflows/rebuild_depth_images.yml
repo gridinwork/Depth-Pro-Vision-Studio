@@ -12,22 +12,27 @@ permissions:
 
 jobs:
   rebuild:
-    if: ${{ hashFiles('.publish/human.part*') != '' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Rebuild screenshot
+      - name: Rebuild staged screenshots
         shell: bash
         run: |
+          set -e
           mkdir -p docs/images
-          cat .publish/human.part* | tr -d '\n\r ' | base64 -d > docs/images/human-depth.png
-          rm -f .publish/human.part*
-          rmdir .publish 2>/dev/null || true
-      - name: Commit screenshot
+          changed=0
+          if ls .publish/human.part* >/dev/null 2>&1; then
+            cat .publish/human.part* | tr -d '\n\r ' | base64 -d > docs/images/human-depth.png
+            rm -f .publish/human.part*
+            changed=1
+          fi
+          echo "changed=$changed" >> "$GITHUB_ENV"
+      - name: Commit screenshots
+        if: env.changed == '1'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/images/human-depth.png .publish
-          git commit -m "Add Depth Pro human depth screenshot" || exit 0
+          git add docs/images .publish
+          git commit -m "Add Depth Pro screenshots"
           git push
