@@ -1,0 +1,33 @@
+name: Rebuild Depth Pro screenshots
+
+on:
+  push:
+    paths:
+      - '.publish/**'
+      - '.github/workflows/rebuild_depth_images.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    if: ${{ hashFiles('.publish/human.part*') != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild screenshot
+        shell: bash
+        run: |
+          mkdir -p docs/images
+          cat .publish/human.part* | tr -d '\n\r ' | base64 -d > docs/images/human-depth.png
+          rm -f .publish/human.part*
+          rmdir .publish 2>/dev/null || true
+      - name: Commit screenshot
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/images/human-depth.png .publish
+          git commit -m "Add Depth Pro human depth screenshot" || exit 0
+          git push
