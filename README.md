@@ -1,3 +1,5 @@
+![Depth Pro Vision Studio main interface](docs/images/main-interface.png)
+
 # Depth Pro Vision Studio
 
 A local Windows computer-vision application for **monocular metric depth estimation** from a standard RGB camera, video file or still image using Apple's **Depth Pro** model.
@@ -5,6 +7,32 @@ A local Windows computer-vision application for **monocular metric depth estimat
 The application estimates a metric depth map in meters and adds an engineering-oriented desktop interface for live depth visualization, cursor/ROI measurements, near/far analysis, thresholding, temporal smoothing, obstacle highlighting, raw depth export, 3D point-cloud viewing and demo recording.
 
 > **Important:** monocular depth is an AI estimate, not a certified distance sensor. This application is not a safety-rated collision-avoidance system or calibrated metrology instrument.
+
+## Demonstration
+
+The following screenshots were captured from the running application and show the RGB camera view together with the estimated metric depth map.
+
+### Human depth estimation
+
+![Human depth estimation](docs/images/human-depth.png)
+
+The split view shows the original RGB frame and the generated depth map side by side, with center-depth, nearest/farthest distance and runtime performance information.
+
+### Foreground hand / depth response
+
+![Foreground hand depth estimation](docs/images/hand-depth.png)
+
+This example demonstrates how the predicted depth changes across the person, foreground hand and background scene while cursor and center-depth measurements remain available.
+
+### Object depth estimation
+
+![Object depth estimation example 1](docs/images/object-depth-1.png)
+
+A close-range object scene demonstrates metric depth estimation on individual objects and surrounding surfaces.
+
+![Object depth estimation example 2](docs/images/object-depth-2.png)
+
+A second close-range example shows depth-map response at a different object distance and camera angle.
 
 ## What is monocular metric depth?
 
